@@ -1,15 +1,15 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { todoActionTypes } from "../../store/todo/todoReducer";
+import { todoActions, todoActionTypes } from "../../store/todo/todoSlice";
 
 const TodoItem = ({ text, todo, id }) => {
   const dispatch = useDispatch();
 
   const editHandler = () => {
-    dispatch({ type: todoActionTypes.TOGGLE_EDIT_STATUS, payload: true });
-    dispatch({ type: todoActionTypes.CHANGE_INPUT_VALUE, payload: text });
-    dispatch({ type: todoActionTypes.CHANGE_EDITING_TODO_ID, payload: id });
+    dispatch(todoActions.toggleEditStatus(true));
+    dispatch(todoActions.changeInputValue(text));
+    dispatch(todoActions.getEditingTodoId(id));
   };
 
   const textDecoration = () => (todo.completed ? "line-through" : "");
@@ -27,7 +27,7 @@ const TodoItem = ({ text, todo, id }) => {
       </li>
       <CompleteBtn
         onClick={() =>
-          dispatch({ type: todoActionTypes.COMPLETE, payload: id })
+          dispatch(todoActions.complete(id))
         }
       >
         <i className="fas fa-check"></i>
@@ -36,7 +36,7 @@ const TodoItem = ({ text, todo, id }) => {
         <i className="fas fa-edit"></i>
       </EditBtn>
       <TrashBtn
-        onClick={() => dispatch({ type: todoActionTypes.REMOVE, payload: id })}
+        onClick={() => dispatch(todoActions.remove(id))}
       >
         <i className="fas fa-trash"></i>
       </TrashBtn>

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { todoActionTypes } from "../../store/todo/todoReducer";
+import { todoActions } from "../../store/todo/todoSlice";
 
 const Form = () => {
   const dispatch = useDispatch();
@@ -16,28 +16,25 @@ const Form = () => {
       completed: false,
     };
 
-    dispatch({ type: todoActionTypes.ADD, payload: newTodo });
+    dispatch(todoActions.add(newTodo));
   };
 
   const saveEditedTodo = (e) => {
     e.preventDefault();
-    dispatch({ type: todoActionTypes.EDIT, payload: inputValue });
-    dispatch({ type: todoActionTypes.TOGGLE_EDIT_STATUS, payload: false });
+    dispatch(todoActions.edit(inputValue));
+    dispatch(todoActions.toggleEditStatus(false));
   };
 
   const deleteAllTodos = (e) => {
-    e.preventDefault()
-    dispatch({ type: todoActionTypes.DELETE_ALL });
+    e.preventDefault();
+    dispatch(todoActions.deleteAll());
   };
   return (
     <StyledForm>
       <input
         value={inputValue}
         onChange={(e) =>
-          dispatch({
-            type: todoActionTypes.CHANGE_INPUT_VALUE,
-            payload: e.target.value,
-          })
+          dispatch(todoActions.changeInputValue(e.target.value))
         }
         type="text"
       />
@@ -58,10 +55,7 @@ const Form = () => {
       <div className="select">
         <select
           onChange={(e) =>
-            dispatch({
-              type: todoActionTypes.CHANGE_SELECT_VALUE,
-              payload: e.target.value,
-            })
+            dispatch(todoActions.changeSelectValue(e.target.value))
           }
           name="todos"
           className="filter-todo"

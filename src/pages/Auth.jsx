@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { authActionTypes } from "../store/auth/authReducer";
+import { authActions } from "../store/auth/authSlice";
 
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
-    const navigate = useNavigate()
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formState, setState] = useState({
     email: "",
     password: "",
@@ -25,8 +25,8 @@ const Auth = () => {
       formState.email === "test@gmail.com" &&
       formState.password === "123123"
     ) {
-      dispatch({ type: authActionTypes.LOG_IN, payload: formState.email });
-      navigate('/todos')
+      dispatch(authActions.logIn(formState.email));
+      navigate("/todos");
     }
   };
 
@@ -102,8 +102,8 @@ const InputBox = styled.div`
     border-radius: 4px;
     padding: 0.25rem;
     border: 1px solid #ccc;
-    &:focus{
-      outline:1px solid #ff6f47;
+    &:focus {
+      outline: 1px solid #ff6f47;
     }
   }
 `;

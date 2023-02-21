@@ -5,10 +5,8 @@ import TodoItem from "./TodoItem";
 
 const TodoList = () => {
   const [filteredTodos, setFilteredTodos] = useState([]);
-//   const {  todos, selectValue } = useContext(TodoContext);
 
-  const todos = useSelector(state => state.todo.todos)
-  const selectValue = useSelector(state => state.todo.selectValue)
+  const { todos, selectValue } = useSelector((state) => state.todo);
 
   useEffect(() => {
     filterHandler();

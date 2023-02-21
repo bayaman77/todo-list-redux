@@ -2,27 +2,27 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { authActionTypes } from "../store/auth/authReducer";
-import { todoActionTypes } from "../store/todo/todoReducer";
+import { authActions } from "../store/auth/authSlice";
+import { todoActions } from "../store/todo/todoSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const [isLoginBtnVisible, setIsLoginBtnVisible] = useState(true);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const isAuthorized = useSelector((state) => state.auth.isAuthorized);
 
   const logoutHandler = () => {
-    dispatch({ type: authActionTypes.LOG_OUT });
-    dispatch({ type: todoActionTypes.DELETE_ALL });
+    dispatch(authActions.logOut());
+    dispatch(todoActions.deleteAll());
     localStorage.removeItem("AUTH");
     localStorage.removeItem("todos");
     navigate("/login");
   };
 
   const goToLoginPage = () => {
-    navigate("/login")
-    setIsLoginBtnVisible(false)
-  }
+    navigate("/login");
+    setIsLoginBtnVisible(false);
+  };
 
   return (
     <HeaderBox>
@@ -35,9 +35,11 @@ const Header = () => {
               <button onClick={logoutHandler}>Logout</button>
             </li>
           ) : (
-            isLoginBtnVisible && <li>
-              <button onClick={goToLoginPage}>login</button>
-            </li>
+            isLoginBtnVisible && (
+              <li>
+                <button onClick={goToLoginPage}>login</button>
+              </li>
+            )
           )}
         </ul>
       </nav>

@@ -1,14 +1,14 @@
-import { combineReducers, createStore } from "redux";
-import { AuthReducer } from "./auth/authReducer";
-import { TodoReducer } from "./todo/todoReducer";
+import { configureStore } from "@reduxjs/toolkit";
+import { authSlice } from "./auth/authSlice";
+import { todoSlice } from "./todo/todoSlice";
 
-const rootReducer = combineReducers({
-  auth: AuthReducer,
-  todo: TodoReducer
+export const store = configureStore({
+  reducer: {
+    [authSlice.name]: authSlice.reducer,
+    [todoSlice.name]: todoSlice.reducer
+  },
 });
 
-export const store = createStore(rootReducer);
-
 store.subscribe(() => {
-    console.log("STORE CHANGED", store.getState());
-  });
+  console.log("STORE CHANGED", store.getState());
+});
